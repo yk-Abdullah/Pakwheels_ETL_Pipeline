@@ -1,86 +1,86 @@
-#  PakWheels ETL Pipeline – Scalable Web Scraping & Data Processing
+# 🚗 PakWheels ETL Pipeline
 
-This project builds an end-to-end ETL pipeline to scrape, clean, and process vehicle listings from **PakWheels.com**, using a modern data engineering stack. It combines **Selenium** for web scraping, **PySpark** for big data processing, **Apache Airflow** for task orchestration, and **Docker** for containerization.
+A real-time data pipeline for extracting, transforming, and loading classified car listings from PakWheels.com using Kafka, Spark, PostgreSQL, and Apache Airflow.
 
-The goal: turn raw, unstructured web data into clean, analysis-ready datasets for automotive insights and modeling.
+## 📁 Project Structure
 
+```
+PakWheels-ETL-Pipeline/
+├── dags/                  <- Airflow DAGs for orchestrating ETL flow
+├── producer/              <- Kafka producer for pushing scraped listings
+├── spark/                 <- Spark scripts for real-time data processing
+├── sql/                   <- SQL scripts for database initialization
+├── utils/                 <- Utility scripts (data cleaning, helpers)
+├── logs/                  <- Log outputs
+├── docker-compose.yml     <- Docker-based orchestration for full stack
+├── requirements.txt       <- Python dependencies
+├── .env                   <- Environment variable configuration
+└── README.md              <- Project documentation
+```
 
-##  Tech Stack
+## 🏗️ System Architecture
 
--  **Selenium** – For dynamic scraping of vehicle listings  
--  **Apache Airflow** – For scheduling and orchestrating ETL tasks  
--  **PySpark** – For scalable data transformation and cleaning  
--  **Docker** – For containerizing the entire workflow  
--  **CSV / Parquet Output** – Clean datasets for downstream use
+- **Kafka Producer**: Web scrapes listings and streams to Kafka topic.
+- **Spark Streaming**: Consumes Kafka stream, transforms and validates data.
+- **PostgreSQL**: Stores the cleaned and enriched listings.
+- **Airflow**: Manages the workflow with DAGs to automate ETL steps.
+
+## 📦 Dataset Overview
+
+Fields included:
+- Car Make & Model
+- Year
+- Price
+- Location
+- Mileage
+- Engine Type
+- Transmission
+
+## 🔄 ETL Workflow
+
+1. **Extract**: Scrape listings using a Kafka producer.
+2. **Transform**: Normalize and clean data using Spark.
+3. **Load**: Save clean data to PostgreSQL.
+
+## 📊 Monitoring & Dashboards
+
+While visualization is not part of this repo, PostgreSQL is ready to be connected to Superset or Metabase. Optionally, Streamlit can be integrated.
+
+## ⚙️ Deployment
+
+### Step 1: Run services
+```bash
+docker-compose up --build
+```
+
+### Step 2: Access Airflow UI
+```
+URL: http://localhost:8080
+Username: airflow
+Password: airflow
+```
+
+## ✅ Features
+
+- Real-time Kafka streaming
+- Spark-based data transformation
+- PostgreSQL data storage
+- Apache Airflow orchestration
+- Docker-based deployment
+
+## 🔧 Configuration
+
+- `.env`: Environment variables for DB, Kafka
+- `docker-compose.yml`: All services defined here
+- `requirements.txt`: Python dependencies
+
+## 🚀 Future Work
+
+- Add dashboards using Superset
+- Cloud deployment (AWS EC2 + RDS + MSK)
+- Data deduplication
+- Scheduled historical reprocessing
 
 ---
 
-##  Workflow Overview
-
-1. **Scraping:**  
-   Selenium script dynamically scrapes car listing data from PakWheels (price, brand, year, engine, mileage, location, etc.)
-
-2. **ETL Scheduling:**  
-   Airflow DAG schedules the scraping, transformation, and loading tasks to run on a defined frequency.
-
-3. **Transformation:**  
-   PySpark processes and cleans the raw data—handling nulls, types, price formats, duplicate listings, etc.
-
-4. **Export:**  
-   Final cleaned dataset is saved in CSV/Parquet format for use in dashboards or ML models.
-
----
-
-## 🔍 Key Features
-
-- Scrapes real-time listings from PakWheels using Selenium  
-- Cleans and structures messy scraped data using PySpark  
-- Task automation with Airflow DAGs (fully scheduled + monitored)  
-- Dockerized pipeline for easy deployment and scalability  
-- Output ready for dashboarding, analytics, or machine learning
-
----
-
-##  Folder Structure
-pakwheels-etl/
-├── airflow/
-│ └── dags/
-│ └── pakwheels_etl_dag.py
-├── docker/
-│ ├── Dockerfile
-│ └── requirements.txt
-├── scraper/
-│ └── pakwheels_scraper.py
-├── spark_jobs/
-│ └── clean_transform.py
-└── output/
-└── cleaned_data.csv
-
-
----
-
-##  How to Run
-
-1. Clone the repo  
-2. Build Docker containers  
-3. Launch Airflow with Docker Compose  
-4. Trigger DAG or schedule run  
-5. Cleaned data will appear in `/output` folder
-
----
-
-##  Sample Use Cases
-
-- Build a Power BI dashboard on market trends by city, brand, price range  
-- Train an ML model to predict resale value based on features  
-- Analyze market demand for different car types over time
-
----
-
-##  Contact
-
-**Muhammad Abdullah Sheikh**  
-📧 abdullahsheeikh.638@gmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/muhammad-abdullah-sheikh) | [GitHub](https://github.com/yk-Abdullah)
-
-
+© 2025 PakWheels ETL Project - For educational and development use.
